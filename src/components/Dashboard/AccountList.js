@@ -32,7 +32,7 @@ const AccountList = () => {
         {/* Loop */}
         <div className="flex flex-wrap -mx-4">
           <div className="w-full md:w-1/2 px-4 mb-8">
-            <a className="group" href="#">
+            <div className="group">
               <div className="bg-coolGray-50 group-hover:bg-coolGray-100 rounded-md shadow-md transition duration-200">
                 <div className="flex flex-wrap items-start justify-between p-10 -mx-4">
                   <div className="w-full lg:w-2/3 px-4 mb-6 lg:mb-0">
@@ -66,7 +66,7 @@ const AccountList = () => {
                   </div>
                 </div>
               </div>
-            </a>
+            </div>
           </div>
         </div>
         {/* end */}

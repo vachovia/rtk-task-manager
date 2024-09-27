@@ -30,9 +30,9 @@ const Login = () => {
                 Register Account
               </h4>
             </div>
-            <form action>
+            <form>
               <div className="mb-4">
-                <label className="block text-sm leading-6 mb-2" htmlFor>
+                <label className="block text-sm leading-6 mb-2" htmlFor="fullname">
                   Full Name
                 </label>
                 <input
@@ -46,7 +46,7 @@ const Login = () => {
               </div>
 
               <div className="mb-4">
-                <label className="block text-sm leading-6 mb-2" htmlFor>
+                <label className="block text-sm leading-6 mb-2" htmlFor="email">
                   Email
                 </label>
                 <input
@@ -59,7 +59,7 @@ const Login = () => {
                 />
               </div>
               <div className="mb-6">
-                <label className="block text-sm leading-6 mb-2" htmlFor>
+                <label className="block text-sm leading-6 mb-2" htmlFor="password">
                   Password
                 </label>
                 <input
