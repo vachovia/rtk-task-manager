@@ -1,24 +1,43 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUserAction } from "../../redux/slice/users/actions";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
     password: "",
   });
+
   //---Destructuring---
   const { fullname, email, password } = formData;
-  //---onchange handler----
+
+  //---onChange Handler----
   const onChangeHandler = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  //---onsubmit handler----
+  //---onSubmit Handler----
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    console.log(formData);
+    dispatch(registerUserAction(formData));
   };
+
+  const { loading, userAuth } = useSelector((state) => {
+    return state.users;
+  });
+
+  const status = userAuth && userAuth.userInfo && userAuth.userInfo.status;
+
+  useEffect(() => {
+    if (status === "success") {
+      navigate("/login");
+    }
+  }, [status, navigate]);
+
   return (
     <>
       <section className="relative py-16 bg-gray-50">
@@ -29,17 +48,23 @@ const Login = () => {
               <h4 className="max-w-xs font-heading text-3xl sm:text-4xl mt-2">
                 Register Account
               </h4>
+              {userAuth?.error && (
+                <h2 className="text-red-500 text-center">{userAuth.error.message}</h2>
+              )}
             </div>
-            <form>
+            <form onSubmit={onSubmitHandler}>
               <div className="mb-4">
-                <label className="block text-sm leading-6 mb-2" htmlFor="fullname">
+                <label
+                  className="block text-sm leading-6 mb-2"
+                  htmlFor="fullname"
+                >
                   Full Name
                 </label>
                 <input
-                  name={fullname}
+                  name="fullname"
                   value={fullname}
                   onChange={onChangeHandler}
-                  className="block w-full p-4 font-heading text-gray-300 placeholder-gray-300 bg-gray-50 rounded outline-none"
+                  className="block w-full p-4 font-heading text-gray-500 placeholder-gray-300 bg-gray-50 rounded outline-none"
                   type="text"
                   placeholder="Enter full name"
                 />
@@ -50,31 +75,46 @@ const Login = () => {
                   Email
                 </label>
                 <input
-                  name={email}
+                  name="email"
                   value={email}
                   onChange={onChangeHandler}
-                  className="block w-full p-4 font-heading text-gray-300 placeholder-gray-300 bg-gray-50 rounded outline-none"
+                  className="block w-full p-4 font-heading text-gray-500 placeholder-gray-300 bg-gray-50 rounded outline-none"
                   type="text"
                   placeholder="Enter Email"
                 />
               </div>
               <div className="mb-6">
-                <label className="block text-sm leading-6 mb-2" htmlFor="password">
+                <label
+                  className="block text-sm leading-6 mb-2"
+                  htmlFor="password"
+                >
                   Password
                 </label>
                 <input
-                  className="block w-full p-4 font-heading text-gray-300 placeholder-gray-300 bg-gray-50 rounded outline-none"
+                  name="password"
+                  value={password}
+                  onChange={onChangeHandler}
+                  className="block w-full p-4 font-heading text-gray-500 placeholder-gray-300 bg-gray-50 rounded outline-none"
                   type="password"
                   placeholder="Type password"
                 />
               </div>
               <div className="text-right mb-6">
-                <button
-                  className="block w-full py-4 px-6 text-center font-heading font-medium text-base text-white bg-green-500 hover:bg-green-600 border border-green-500 hover:border-green-600 rounded-sm transition duration-200"
-                  type="submit"
-                >
-                  Register
-                </button>
+                {loading ? (
+                  <button
+                    className="block w-full py-4 px-6 text-center font-heading font-medium text-base text-white bg-gray-500 hover:bg-gray-800 border border-white-500 hover:border-white-600 rounded-sm transition duration-200"
+                    type="button"
+                  >
+                    Loading...
+                  </button>
+                ) : (
+                  <button
+                    className="block w-full py-4 px-6 text-center font-heading font-medium text-base text-white bg-green-500 hover:bg-green-600 border border-green-500 hover:border-green-600 rounded-sm transition duration-200"
+                    type="submit"
+                  >
+                    Register
+                  </button>
+                )}
               </div>
               <Link
                 className="block font-heading text-indigo-600 text-center hover:underline mb-6"
