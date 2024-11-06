@@ -1,19 +1,27 @@
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"; // BellIcon
 import { PlusIcon } from "@heroicons/react/20/solid";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "./../../assets/logo.png";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUserAction } from "../../redux/slice/users/actions";
+import { useEffect } from "react";
 
 export default function Navbar() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { userInfo } = useSelector((state) => {
     return state.users?.userAuth;
   });
 
   const isLoggedIn = userInfo && userInfo.token;
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+  }, [isLoggedIn, navigate]);
 
   const logout = () => {
     dispatch(logoutUserAction()); // ?
