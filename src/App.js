@@ -11,6 +11,7 @@ import {
   AccountDetails,
   AddTransaction,
   EditTransaction,
+  AuthRoute
 } from "./components";
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<MainDashboard />} />
+        <Route path="/dashboard" element={<AuthRoute><MainDashboard /></AuthRoute>} />
         <Route path="/account" element={<AccountDetails />} />
         <Route path="/account/:id" element={<AccountDetails />} />
         <Route path="/add-transaction/:id" element={<AddTransaction />} />

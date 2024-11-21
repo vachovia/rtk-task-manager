@@ -3,7 +3,7 @@ import baseURL from "../../../../utils/baseURL";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const registerUserAction = createAsyncThunk(
-  "user/register",
+  "users/register",
   async (payload, { rejectWithValue, getState, dispatch }) => {
     try {
       const url = `${baseURL}/users/register`;

@@ -8,6 +8,7 @@ import MainDashboard from "./Dashboard/MainDashboard";
 import AccountDetails from "./Dashboard/AccountDetails";
 import AddTransaction from "./Forms/AddTransaction";
 import EditTransaction from "./Forms/EditTransaction";
+import AuthRoute from "./AuthRoute/AuthRoute";
 
 export {
   Home,
@@ -20,4 +21,5 @@ export {
   AccountDetails,
   AddTransaction,
   EditTransaction,
+  AuthRoute,
 };

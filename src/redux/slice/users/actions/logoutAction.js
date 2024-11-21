@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const logoutUserAction = createAsyncThunk("user/logout", () => {
+const logoutUserAction = createAsyncThunk("users/logout", () => {
   localStorage.removeItem("userInfo");
   return null;
 });

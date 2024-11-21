@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { registerUserAction, loginUserAction, logoutUserAction } from "./actions";
+import {
+  registerUserAction,
+  loginUserAction,
+  logoutUserAction,
+  getProfileAction,
+} from "./actions";
 
 const jsonTryParse = function (jsonString) {
   try {
@@ -9,7 +14,7 @@ const jsonTryParse = function (jsonString) {
   }
 };
 
-const userInfoRaw = localStorage.getItem('userInfo');
+const userInfoRaw = localStorage.getItem("userInfo");
 const userInfo = jsonTryParse(userInfoRaw);
 
 const initialState = {
@@ -28,8 +33,11 @@ const initialState = {
 const usersSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {},
+  reducers: {
+    userDummyAction: (state, action) => { },
+  },
   extraReducers: (builder) => {
+    // Register
     builder.addCase(registerUserAction.pending, (state, action) => {
       state.loading = true;
     });
@@ -41,6 +49,7 @@ const usersSlice = createSlice({
       state.loading = false;
       state.userAuth.error = action.payload;
     });
+    // Login
     builder.addCase(loginUserAction.pending, (state, action) => {
       state.loading = true;
     });
@@ -52,13 +61,31 @@ const usersSlice = createSlice({
       state.loading = false;
       state.userAuth.error = action.payload;
     });
+    // Get Profile
+    builder.addCase(getProfileAction.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(getProfileAction.fulfilled, (state, action) => {
+      state.loading = false;
+      state.profile = action.payload;
+    });
+    builder.addCase(getProfileAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+      state.profile = {};
+    });
+    // LogOut
     builder.addCase(logoutUserAction.fulfilled, (state, action) => {
       state.loading = false;
+      state.error = null;
+      state.profile = {};
       state.userAuth.userInfo = null;
     });
   },
 });
 
 const usersReducer = usersSlice.reducer;
+
+export const { userDummyAction } = usersSlice.actions;
 
 export default usersReducer;
