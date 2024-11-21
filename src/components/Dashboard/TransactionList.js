@@ -75,12 +75,14 @@ const TransactionList = () => {
                   <th className="whitespace-nowrap px-4 bg-white text-sm font-medium text-center">
                     2022/12/12
                   </th>
-                  <Link
-                    to={"/edit-transaction/8"}
-                    className="whitespace-nowrap cursor-pointer px-4 bg-white text-sm font-medium text-blue-500 text-center"
-                  >
-                    EDIT
-                  </Link>
+                  <th>
+                    <Link
+                      to={"/edit-transaction/8"}
+                      className="whitespace-nowrap cursor-pointer px-4 bg-white text-sm font-medium text-blue-500 text-center"
+                    >
+                      EDIT
+                    </Link>
+                  </th>
                 </tr>
               </tbody>
             </table>

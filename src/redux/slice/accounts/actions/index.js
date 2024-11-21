@@ -1,3 +1,4 @@
 import createAccountAction from "./createAccountAction";
+import getSingleAccountAction from "./getSingleAccountAction";
 
-export { createAccountAction };
+export { createAccountAction, getSingleAccountAction };

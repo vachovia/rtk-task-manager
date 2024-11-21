@@ -13,8 +13,6 @@ const MainDashboard = () => {
 
   const { profile, error, loading } = useSelector((state) => state?.users);
 
-  console.log(profile);
-
   return (
     <>
       {loading ? (
