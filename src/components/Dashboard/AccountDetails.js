@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import TransactionList from "./TransactionList";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleAccountAction } from "../../redux/slice/accounts/actions";
+import calcFlow, { numberWithCommas } from "../../utils/calcFlow";
 
 const AccountDetails = () => {
   const params = useParams();
@@ -10,12 +11,17 @@ const AccountDetails = () => {
   const dispatch = useDispatch();
 
   const { account, error, loading } = useSelector((state) => state?.accounts);
-
-  console.log(account);
+  const transactions = account?.transactions || [];
 
   useEffect(() => {
     dispatch(getSingleAccountAction(id));
-  }, [id]);
+  }, [id, dispatch]);
+
+  const flow = calcFlow(transactions);
+
+  const income = numberWithCommas(flow.income);
+  const expenses = numberWithCommas(flow.expenses);
+  const balance = numberWithCommas(flow.income - flow.expenses);
 
   return (
     <>
@@ -44,7 +50,7 @@ const AccountDetails = () => {
                 {account?.notes}
               </p>
               <Link
-                to={"/edit-account/1"}
+                to={`/edit-account/${id}`}
                 className="inline-flex text-center  mb-8 items-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
                 Edit Account
@@ -52,7 +58,7 @@ const AccountDetails = () => {
               <div className="flex flex-wrap justify-center -mx-4">
                 <div className="w-full md:w-1/3 lg:w-1/4 px-4 mb-8 lg:mb-0">
                   <h2 className="mb-2 text-4xl md:text-5xl text-red-600 font-bold tracking-tighter">
-                    $900
+                    {expenses}
                   </h2>
                   <p className="text-lg md:text-xl text-coolGray-500 font-medium">
                     Expenses
@@ -60,7 +66,7 @@ const AccountDetails = () => {
                 </div>
                 <div className="w-full md:w-1/3 lg:w-1/4 px-4 mb-8 lg:mb-0">
                   <h2 className="mb-2 text-4xl md:text-5xl text-coolGray-900 font-bold tracking-tighter">
-                    $30.000
+                    {income}
                   </h2>
                   <p className="text-lg md:text-xl text-green-500 font-medium">
                     Income
@@ -68,7 +74,7 @@ const AccountDetails = () => {
                 </div>
                 <div className="w-full md:w-1/3 lg:w-1/4 px-4">
                   <h2 className="mb-2 text-4xl md:text-5xl text-coolGray-900 font-bold tracking-tighter">
-                    $ 500
+                    {balance}
                   </h2>
                   <p className="text-lg md:text-xl text-blue-500 font-medium">
                     Balance
@@ -84,7 +90,7 @@ const AccountDetails = () => {
                 }}
               >
                 <Link
-                  to={"/add-transaction/1"}
+                  to={`/add-transaction/${id}`}
                   type="button"
                   className="inline-flex text-center items-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
@@ -93,10 +99,15 @@ const AccountDetails = () => {
               </div>
             </div>
           </div>
+          {transactions.length === 0 ? (
+            <h2 className="text-center text-indigo-600 mt-5 text-2xl">
+              No Transactions Found
+            </h2>
+          ) : (
+            <TransactionList transactions={transactions} />
+          )}
         </section>
       )}
-
-      <TransactionList />
     </>
   );
 };
