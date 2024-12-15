@@ -119,7 +119,7 @@ const EditTransaction = () => {
             <p className="font-medium">
               <Link
                 to={"/account/3"}
-                className="text-indigo-600 hover:text-indigo-700"
+                className="text-indigo-600 hover:text-indigo-700 text-xl"
                 href="#"
               >
                 Back To Account

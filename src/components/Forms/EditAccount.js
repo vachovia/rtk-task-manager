@@ -12,7 +12,7 @@ const EditAccount = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [account, setAccount] = useState({
+  const [a, setA] = useState({
     id: "",
     name: "",
     notes: "",
@@ -25,24 +25,24 @@ const EditAccount = () => {
   }, [id, dispatch]);
 
   const {
-    account: acc,
+    account,
     error,
     loading,
     isUpdated,
   } = useSelector((state) => state?.accounts);
 
   useEffect(() => {
-    if (acc) {
-      setAccount(acc);
+    if (account) {
+      setA(account);
     }
-  }, [acc]);
+  }, [account]);
 
   //---Destructuring---
-  const { name, notes, accountType, initialBalance } = account;
+  const { name, notes, accountType, initialBalance } = a;
 
   //---onChange Handler----
   const onChange = (e) => {
-    setAccount({ ...account, [e.target.name]: e.target.value });
+    setA({ ...a, [e.target.name]: e.target.value });
   };
 
   //---onSubmit Handler----
@@ -79,7 +79,7 @@ const EditAccount = () => {
           </p>
           {error && (
             <p className="mb-3 font-medium text-lg text-red-600 leading-normal">
-              You are editing... {name}
+              {error}
             </p>
           )}
           <form onSubmit={onSubmit}>

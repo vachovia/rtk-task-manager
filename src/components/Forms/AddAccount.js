@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { createAccountAction } from "./../../redux/slice/accounts/actions";
 
@@ -7,29 +7,46 @@ const AddAccount = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [account, setAccount] = useState({
+  const [a, setA] = useState({
     name: "",
     notes: "",
     accountType: "",
     initialBalance: "",
   });
 
+  const { error, loading, isAdded } = useSelector(
+    (state) => state?.accounts
+  );
+
   //---Destructuring---
-  const { name, notes, accountType, initialBalance } = account;
+  const { name, notes, accountType, initialBalance } = a;
 
   //---onChange Handler----
   const onChange = (e) => {
-    setAccount({ ...account, [e.target.name]: e.target.value });
+    setA({ ...a, [e.target.name]: e.target.value });
   };
 
   //---onSubmit Handler----
-  const onSubmit = async (e) => {
-    e.preventDefault();    
-    try {
-      await dispatch(createAccountAction(account));
-      navigate(`/dashboard`);
-    } catch (e) {}
+  // const onSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await dispatch(createAccountAction(a));
+  //     navigate(`/dashboard`);
+  //   } catch (e) {}
+  // };
+
+  //---onSubmit Handler----
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(createAccountAction(a));
   };
+
+  useEffect(() => {
+    if (isAdded) {
+      navigate(`/dashboard`);
+    }
+    // eslint-disable-next-line
+  }, [isAdded]);
 
   return (
     <section className="py-16 xl:pb-56 bg-white overflow-hidden">
@@ -41,6 +58,11 @@ const AddAccount = () => {
           <p className="mb-12 font-medium text-lg text-gray-600 leading-normal">
             Create an account(Project) to start tracking your transactions
           </p>
+          {error && (
+            <p className="mb-3 font-medium text-lg text-red-600 leading-normal">
+              {error}
+            </p>
+          )}
           <form onSubmit={onSubmit}>
             <label className="block mb-5">
               <input
@@ -104,12 +126,22 @@ const AddAccount = () => {
                 />
               </div>
             </div>
-            <button
-              type="submit"
-              className="mb-4 py-4 px-9 w-full text-white font-semibold border border-indigo-700 rounded-xl shadow-4xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200"
-            >
-              Create Account
-            </button>
+            {loading ? (
+              <button
+                type="button"
+                disabled
+                className="mb-4 py-4 px-9 w-full text-white font-semibold border border-indigo-700 rounded-xl shadow-4xl focus:ring focus:ring-indigo-300 bg-gray-600 hover:bg-indigo-700 transition ease-in-out duration-200"
+              >
+                Loading...
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="mb-4 py-4 px-9 w-full text-white font-semibold border border-indigo-700 rounded-xl shadow-4xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200"
+              >
+                Create Account
+              </button>
+            )}
             <Link
               to={`/dashboard`}
               className="text-green-600 hover:text-green-700 text-xl"
