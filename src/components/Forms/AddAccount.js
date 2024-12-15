@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { createAccountAction } from "./../../redux/slice/accounts/actions";
 
 const AddAccount = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [account, setAccount] = useState({
     name: "",
     notes: "",
@@ -12,31 +14,21 @@ const AddAccount = () => {
     initialBalance: "",
   });
 
-  const obj = useSelector((state) => {
-    return state.accounts;
-  });
-
-  console.log(obj);
-
-  // useEffect(() => {
-  //   if (status === "success") {
-  //     navigate("/login");
-  //   }
-  // }, [status, navigate]);
-
   //---Destructuring---
-  const { name, initialBalance, notes, accountType } = account;
-  
-  //---onchange handler----
+  const { name, notes, accountType, initialBalance } = account;
+
+  //---onChange Handler----
   const onChange = (e) => {
     setAccount({ ...account, [e.target.name]: e.target.value });
   };
 
-  //---onsubmit handler----
-  const onSubmit = (e) => {
-    e.preventDefault();
-    console.log(account);
-    dispatch(createAccountAction(account));
+  //---onSubmit Handler----
+  const onSubmit = async (e) => {
+    e.preventDefault();    
+    try {
+      await dispatch(createAccountAction(account));
+      navigate(`/dashboard`);
+    } catch (e) {}
   };
 
   return (
@@ -81,21 +73,21 @@ const AddAccount = () => {
                 className="appearance-none block w-full py-3 px-4 leading-tight text-gray-700 bg-gray-200 focus:bg-white border border-gray-200 focus:border-gray-500 rounded focus:outline-none"
               >
                 <option>-- Select Account Type --</option>
-                <option value="Savings">Savings</option>
-                <option value="Investment">Investment</option>
+                <option value="Cash Flow">Cash Flow</option>
                 <option value="Checking">Checking</option>
                 <option value="Credit Card">Credit Card</option>
-                <option value="School">School</option>
-                <option value="Project">Project</option>
-                <option value="Utilities">Utilities</option>
-                <option value="Travel">Travel</option>
-                <option value="Groceries">Groceries</option>
-                <option value="Entertainment">Entertainment</option>
-                <option value="Personal">Personal</option>
-                <option value="Loan">Loan</option>
-                <option value="Cash Flow">Cash Flow</option>
                 <option value="Education">Education</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Groceries">Groceries</option>
+                <option value="Savings">Savings</option>
+                <option value="Investment">Investment</option>
+                <option value="Loan">Loan</option>
+                <option value="Personal">Personal</option>
+                <option value="Project">Project</option>
+                <option value="School">School</option>
+                <option value="Travel">Travel</option>
                 <option value="Uncategorized">Uncategorized</option>
+                <option value="Utilities">Utilities</option>
               </select>
             </label>
 
@@ -114,16 +106,17 @@ const AddAccount = () => {
             </div>
             <button
               type="submit"
-              className="mb-8 py-4 px-9 w-full text-white font-semibold border border-indigo-700 rounded-xl shadow-4xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200"
+              className="mb-4 py-4 px-9 w-full text-white font-semibold border border-indigo-700 rounded-xl shadow-4xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200"
             >
               Create Account
             </button>
-            {/* <p className="font-medium">
-              <span>Already have an account?</span>
-              <a className="text-indigo-600 hover:text-indigo-700" href="#">
-                Back To Account
-              </a>
-            </p> */}
+            <Link
+              to={`/dashboard`}
+              className="text-green-600 hover:text-green-700 text-xl"
+              href="#"
+            >
+              Back To Account
+            </Link>
           </form>
         </div>
       </div>

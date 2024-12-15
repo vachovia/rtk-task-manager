@@ -18,7 +18,6 @@ const AccountDetails = () => {
   }, [id, dispatch]);
 
   const flow = calcFlow(transactions);
-
   const income = numberWithCommas(flow.income);
   const expenses = numberWithCommas(flow.expenses);
   const balance = numberWithCommas(flow.income - flow.expenses);
@@ -100,12 +99,21 @@ const AccountDetails = () => {
             </div>
           </div>
           {transactions.length === 0 ? (
-            <h2 className="text-center text-indigo-600 mt-5 text-2xl">
+            <h2 className="text-center text-red-600 mt-5 text-2xl italic">
               No Transactions Found
             </h2>
           ) : (
             <TransactionList transactions={transactions} />
           )}
+          <p className="font-medium text-center p-4">
+            <Link
+              to={`/dashboard`}
+              className="text-indigo-600 hover:text-indigo-700 text-xl"
+              href="#"
+            >
+              Back To Dashboard
+            </Link>
+          </p>
         </section>
       )}
     </>

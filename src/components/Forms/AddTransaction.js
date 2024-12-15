@@ -23,7 +23,6 @@ const AddTransaction = () => {
   });
 
   const { isAdded } = useSelector((state) => state?.transactions);
-
   
   useEffect(() => {
     if (isAdded) {
@@ -142,11 +141,10 @@ const AddTransaction = () => {
             </div>
             <button
               type="submit"
-              className="mb-8 py-4 px-9 w-full text-white font-semibold border border-indigo-700 rounded-xl shadow-4xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200"
+              className="mb-4 py-4 px-9 w-full text-white font-semibold border border-indigo-700 rounded-xl shadow-4xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200"
             >
               Create Transaction
             </button>
-
             <p className="font-medium">
               <Link
                 to={`/account/${id}`}
