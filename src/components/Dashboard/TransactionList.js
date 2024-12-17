@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const TransactionList = (props) => {
-  const { transactions } = props;
+  const { transactions, accountId } = props;
 
   return (
     <>
@@ -82,7 +82,7 @@ const TransactionList = (props) => {
                       </td>
                       <td>
                         <Link
-                          to={`/edit-transaction/${transaction.id}`}
+                          to={`/account/${accountId}/edit-transaction/${transaction.id}`}
                           className="whitespace-nowrap cursor-pointer px-4 bg-white text-sm font-medium text-blue-500 text-center"
                         >
                           EDIT

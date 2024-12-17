@@ -103,7 +103,7 @@ const AccountDetails = () => {
               No Transactions Found
             </h2>
           ) : (
-            <TransactionList transactions={transactions} />
+            <TransactionList accountId={account.id} transactions={transactions} />
           )}
           <p className="font-medium text-center p-4">
             <Link

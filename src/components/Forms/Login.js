@@ -29,13 +29,20 @@ const Login = () => {
     return state.users;
   });
 
-  const status = userAuth && userAuth.userInfo && userAuth.userInfo.status;
+  // const status = userAuth && userAuth.userInfo && userAuth.userInfo.status;
+  // useEffect(() => {
+  //   if (status === "success") {
+  //     navigate("/");
+  //   }
+  // }, [status, navigate]);
+
+  const token = userAuth?.userInfo?.token;
 
   useEffect(() => {
-    if (status === "success") {
+    if (token) {
       navigate("/");
     }
-  }, [status, navigate]);
+  }, [token, navigate]);
 
   return (
     <>
