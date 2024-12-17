@@ -12,6 +12,7 @@ import {
   AddTransaction,
   EditTransaction,
   AuthRoute,
+  About
 } from "./components";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
         <Route path="/register" element={<Register />} />
         <Route
           path="/dashboard"
